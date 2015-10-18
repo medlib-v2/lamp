@@ -28,11 +28,11 @@ Cette box vagrant est configuré pour utiliser '1024 Mo' de RAM et 1 CPU. Vous p
 
 - Ubuntu Trusty64 (64-Bit)
 - Apache 2
-- PHP _v5.6.7_ with mysql, mcrypt, memcached, memcache, sqlite, xmlrpc, geoip gd, xdebug, php5-fpm, php5-common
-- MySQL _v5.5.41_
+- PHP _v5.6.7_ with mysql, mcrypt, memcached, memcache, sqlite, xmlrpc, geoip gd, php5-fpm, php5-common
+- MySQL _v6.1.2_
 - Git _v1.9.1_
 - Node _v0.10.38_
 - Composer _v1.0.0-alpha9_
 - NPM _v1.4.28_
 - Bower _v1.3.12_
-- Yaz _v5.3.0_
+- Yaz _v4.2.30_

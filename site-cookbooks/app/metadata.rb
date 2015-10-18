@@ -1,4 +1,4 @@
-name              "medlib"
+name              "app"
 maintainer        "Patrick LUZOLO SIASIA"
 maintainer_email  "me@codemonkey.io"
 description       "Principal point de l'installation et la configuration de Medlib LAMP stack"

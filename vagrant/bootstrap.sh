@@ -24,7 +24,7 @@ sudo apt-get install -y php5 > /dev/null
 echo "Installing PHP"
 sudo apt-get install php5-common php5-dev php5-cli php5-fpm php5-xsl php-pear -y > /dev/null
 sudo apt-get install yaz libyaz4 libyaz4-dev -y > /dev/null
-pecl install yaz
+sudo pecl install yaz -y > /dev/null
 
 #echo "Installing PHP extensions"
 sudo apt-get install curl php5-curl php5-gd php5-mcrypt php5-mysql php5-xdebug php5-memcached php5-memcache php5-sqlite php5-json php5-xmlrpc php5-geoip -y > /dev/null

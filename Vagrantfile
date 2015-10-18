@@ -87,7 +87,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         :packages   => %w{ vim git screen curl },
 
         # PHP packages
-        :php_packages   => %w{ php5-mysqlnd php5-curl php5-mcrypt php5-memcached php5-gd }
+        :php_packages   => %w{ php5-mysqlnd php5-curl php5-mcrypt php5-memcached php5-gd php5-cli }
       },
       :mysql => {
         :server_root_password   => database_password,
