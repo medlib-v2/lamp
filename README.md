@@ -23,3 +23,16 @@ Dans le dossier lamp, lancez la commande 'vagrant up' qui va utiliser le fichier
   Vous devez placer vos projets dans `répertoire projects`. Ce répertoire est synchronisé avec `répertoire /var/www/{projet}/public` dans la machine virtuelle.
 
 Cette box vagrant est configuré pour utiliser '1024 Mo' de RAM et 1 CPU. Vous pouvez changer la configuration de Vagrantfile.
+
+## Packages inclus
+
+- Ubuntu Trusty64 (64-Bit)
+- Apache 2
+- PHP _v5.6.7_ with mysql, mcrypt, memcached, memcache, sqlite, xmlrpc, geoip gd, xdebug, php5-fpm, php5-common
+- MySQL _v5.5.41_
+- Git _v1.9.1_
+- Node _v0.10.38_
+- Composer _v1.0.0-alpha9_
+- NPM _v1.4.28_
+- Bower _v1.3.12_
+- Yaz _v5.3.0_
