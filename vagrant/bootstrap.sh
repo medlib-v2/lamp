@@ -13,12 +13,11 @@ sudo add-apt-repository ppa:ondrej/php5-oldstable -y > /dev/null
 sudo apt-get update > /dev/null
 sudo apt-get install -y php5 > /dev/null
 
-echo "Installing PHP"
-sudo apt-get install php5-fpm -y > /dev/null
+echo "Installing YAZ PHP"
 sudo apt-get install yaz libyaz4 libyaz4-dev -y > /dev/null
-sudo pecl install yaz -y > /dev/null
+sudo printf "\n" | pecl install yaz > /dev/null
 
-#echo "Installing PHP extensions"
+echo "Installing PHP extensions"
 sudo apt-get install php5-sqlite php5-xmlrpc php5-geoip -y > /dev/null
 
 # Installing Composer
