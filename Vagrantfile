@@ -62,31 +62,34 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
   config.vm.provision :hostmanager
 
+  # PROVISION
+  # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
+  # config.vm.provision :shell, path: "bootstrap.sh"
+  # config.vm.provision :shell, path: “vagrant/bootstrap.sh"
+  # Shell provisioning
+  config.vm.provision :shell do |s|
+    s.path = "vagrant/bootstrap.sh"
+  end
+
   # Enable and configure chef solo
   config.vm.provision :chef_solo do |chef|
     chef.add_recipe "app::packages"
     chef.add_recipe "app::web_server"
     chef.add_recipe "app::vhost"
     chef.add_recipe "memcached"
-    chef.add_recipe "app::db"
     chef.json = {
       :app => {
         # Project name
         :name           => project_name,
-
         # Name of MySQL database that should be created
         :db_name        => project_name + "-dev",
-
         # Server name and alias(es) for Apache vhost
         :server_name    => project_name + ".lan",
         :server_aliases =>  [ "dev." + project_name + ".lan" ],
-
         # Document root for Apache vhost
         :docroot        => "/var/www/" + project_name + "/public",
-
         # General packages
         :packages   => %w{ vim git screen curl mysql-client-core-5.6 },
-
         # PHP packages
         :php_packages   => %w{ php5-common php5-fpm php5-cgi php5 php5-dev php5-cli php-pear php5-gd php5-curl php5-xsl libssh2-php php5-mysqlnd php5-gd php-pear php5-mysql php5-json language-pack-fr }
       },
@@ -98,26 +101,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         :allow_remote_root      => true
       }
     }
+    chef.add_recipe "app::db"
   end
-
-  # PROVISION
-  # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
-  # config.vm.provision :shell, path: "bootstrap.sh"
-  # config.vm.provision :shell, path: “vagrant/bootstrap.sh"
-  # Shell provisioning
-  config.vm.provision :shell do |s|
-    s.path = "vagrant/bootstrap.sh"
-  end
-
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   sudo apt-get update
-  #   sudo apt-get install -y apache2
-  # SHELL
-
 end
