@@ -18,7 +18,7 @@ Medlib LAMP Stack est une configuration portable __Ubuntu Trusty64__ utilisant l
 
 Dans le dossier lamp, lancez la commande 'vagrant up' qui va utiliser le fichier Vagrantfile pour télécharger automatiquement la box [ubuntu/trusty64](https://atlas.hashicorp.com/ubuntu/boxes/trusty64) via [Atlas Vagrant Box](https://atlas.hashicorp.com/boxes/search?utm_source=vagrantcloud.com&vagrantcloud=1).
 
-  Les dossiers site-cookbooks & vagrant contiennent ici les fichiers confi de la box.
+  Les dossiers site-cookbooks & vagrant contiennent ici les fichiers de configuration de la box.
 
   Vous devez placer vos projets dans `répertoire projects`. Ce répertoire est synchronisé avec `répertoire /var/www/{projet}/public` dans la machine virtuelle.
 
