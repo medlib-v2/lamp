@@ -6,7 +6,7 @@
 #
 
 # Install MySQL server & MySQL client
-include_recipe "mysql::server"
+#include_recipe "mysql::server"
 
 # Create database if it doesn't exist
 ruby_block "create_#{node['app']['name']}_db" do

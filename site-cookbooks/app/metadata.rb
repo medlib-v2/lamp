@@ -1,6 +1,6 @@
 name              "app"
 maintainer        "Patrick LUZOLO SIASIA"
-maintainer_email  "me@codemonkey.io"
+maintainer_email  "luzolo_p@enta-alternance.net"
 description       "Principal point de l'installation et la configuration de Medlib LAMP stack"
 version           "1.0.0"
 

@@ -6,7 +6,7 @@
 
 # IP Address for the host only network, change it to anything you like
 # but please keep it within the IPv4 private network range
-ip_address = "172.22.22.22"
+ip_address = "192.168.33.22"
 
 # The project name is base for directories, hostname and alike
 project_name = "medlib"
@@ -36,10 +36,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
 
   # Create a private network, which allows host-only access to the machine using a specific IP.
-  config.vm.network "private_network", ip: "192.168.33.22"
+  config.vm.network "private_network", ip: ip_address
 
   # Set share folder
-  config.vm.synced_folder "./" , "/var/www/" + project_name + "/", group: "www-data", owner: "vagrant", :mount_options => ["dmode=775", "fmode=666"]
+  config.vm.synced_folder "../" , "/var/www/" + project_name + "/", group: "www-data", owner: "vagrant", :mount_options => ["dmode=775", "fmode=666"]
 
   # CUSTOMIZATION
   config.vm.provider "virtualbox" do |vb|
@@ -84,10 +84,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         :docroot        => "/var/www/" + project_name + "/public",
 
         # General packages
-        :packages   => %w{ vim git screen curl },
+        :packages   => %w{ vim git screen curl mysql-client-core-5.6 },
 
         # PHP packages
-        :php_packages   => %w{ php5-mysqlnd php5-curl php5-mcrypt php5-memcached php5-gd php5-cli }
+        :php_packages   => %w{ php5-common php5-fpm php5-cgi php5 php5-dev php5-cli php-pear php5-gd php5-curl php5-xsl libssh2-php php5-mysqlnd php5-gd php-pear php5-mysql php5-json language-pack-fr }
       },
       :mysql => {
         :server_root_password   => database_password,
@@ -104,7 +104,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.provision :shell, path: "bootstrap.sh"
   # config.vm.provision :shell, path: “vagrant/bootstrap.sh"
   # Shell provisioning
-  config.vm.provision "shell" do |s|
+  config.vm.provision :shell do |s|
     s.path = "vagrant/bootstrap.sh"
   end
 
