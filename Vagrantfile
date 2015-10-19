@@ -36,7 +36,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
 
   # Create a private network, which allows host-only access to the machine using a specific IP.
-  config.vm.network "private_network", ip: ip_address
+  #config.vm.network "private_network", ip: ip_address
 
   # Set share folder
   config.vm.synced_folder "../" , "/var/www/" + project_name + "/", group: "www-data", owner: "vagrant", :mount_options => ["dmode=775", "fmode=666"]
@@ -56,6 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.hostmanager.manage_host = true
   config.vm.define project_name do |node|
     node.vm.hostname = project_name + ".lan"
+    # Create a private network, which allows host-only access to the machine using a specific IP.
     node.vm.network :private_network, ip: ip_address
     node.hostmanager.aliases = [ "dev." + project_name + ".lan" ]
   end
