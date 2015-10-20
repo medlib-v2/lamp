@@ -82,7 +82,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # Project name
         :name           => project_name,
         # Name of MySQL database that should be created
-        :db_name        => project_name + "-dev",
+        :db_name        => project_name + "_dev",
         # Server name and alias(es) for Apache vhost
         :server_name    => project_name + ".lan",
         :server_aliases =>  [ "dev." + project_name + ".lan" ],
