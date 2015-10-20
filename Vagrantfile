@@ -20,23 +20,37 @@ VAGRANTFILE_API_VERSION = "2"
 
 # Vagrant configuration
 #################################
+Vagrant.require_version ">= 1.7.0"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  # Enable Berkshelf support
-  config.berkshelf.enabled = true
-
-  # Use the omnibus installer for the latest Chef installation
-  config.omnibus.chef_version = :latest
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "ubuntu/trusty64"
 
-  # Setup port forwarding
-  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+  # Enable Berkshelf support
+  if Vagrant.has_plugin? 'vagrant-berkshelf'
+    config.berkshelf.enabled = true
+  end
 
-  # Create a private network, which allows host-only access to the machine using a specific IP.
-  #config.vm.network "private_network", ip: ip_address
+  if Vagrant.has_plugin? 'vagrant-omnibus'
+    # Use the omnibus installer for the latest Chef installation
+    config.omnibus.chef_version = :latest
+  else
+    raise Vagrant::Errors::VagrantError.new,
+    "vagrant-omnibus missing, please install the plugin:\n" +
+    "vagrant plugin install vagrant-omnibus"
+  end
+
+  # Setup port forwarding
+  # Forward http port on 8080, used for connecting web browsers to localhost:8080
+  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+  # Forward MySql port on 33066, used for connecting admin-clients to localhost:33066
+  config.vm.network :forwarded_port, guest: 3306, host: 33066
+  # Forward http port on 8025, used for connecting web browsers to MailHog
+  config.vm.network :forwarded_port, guest: 8025, host: 8025
 
   # Set share folder
   config.vm.synced_folder "../" , "/var/www/" + project_name + "/", group: "www-data", owner: "vagrant", :mount_options => ["dmode=775", "fmode=666"]
@@ -62,20 +76,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
   config.vm.provision :hostmanager
 
-  # PROVISION
-  # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
-  # config.vm.provision :shell, path: "bootstrap.sh"
-  # config.vm.provision :shell, path: “vagrant/bootstrap.sh"
-  # Shell provisioning
-  config.vm.provision :shell do |s|
-    s.path = "vagrant/bootstrap.sh"
-  end
-
   # Enable and configure chef solo
   config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = ["site-cookbooks"]
+    # List of recipes to run
     chef.add_recipe "app::packages"
     chef.add_recipe "app::web_server"
     chef.add_recipe "app::vhost"
+    chef.add_recipe "app::nodejs"
     chef.add_recipe "memcached"
     chef.json = {
       :app => {
@@ -89,7 +97,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # Document root for Apache vhost
         :docroot        => "/var/www/" + project_name + "/public",
         # General packages
-        :packages   => %w{ vim git screen curl mysql-client-core-5.6 },
+        :packages   => %w{ vim git screen curl mysql-server-5.6 mysql-client-core-5.6 libapache2-mod-php5 },
         # PHP packages
         :php_packages   => %w{ php5-common php5-fpm php5-cgi php5 php5-dev php5-cli php-pear php5-gd php5-curl php5-xsl libssh2-php php5-mysqlnd php5-gd php-pear php5-mysql php5-json language-pack-fr }
       },
@@ -102,5 +110,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       }
     }
     chef.add_recipe "app::db"
+  end
+
+  # PROVISION
+  # Define the bootstrap file: A (shell) script that runs after first setup of your box (= provisioning)
+  # config.vm.provision :shell, path: "bootstrap.sh"
+  # config.vm.provision :shell, path: “vagrant/bootstrap.sh"
+  # Shell provisioning
+  config.vm.provision :shell do |s|
+    s.path = "vagrant/bootstrap.sh"
   end
 end
