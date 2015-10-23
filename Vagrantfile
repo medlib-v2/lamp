@@ -46,14 +46,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Setup port forwarding
   # Forward http port on 8080, used for connecting web browsers to localhost:8080
-  config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+  config.vm.network :forwarded_port, guest: 80, host: 8080, auto_correct: true
   # Forward MySql port on 33066, used for connecting admin-clients to localhost:33066
   config.vm.network :forwarded_port, guest: 3306, host: 33066
   # Forward http port on 8025, used for connecting web browsers to MailHog
   config.vm.network :forwarded_port, guest: 8025, host: 8025
 
   # Set share folder
-  config.vm.synced_folder "../" , "/var/www/" + project_name + "/", group: "www-data", owner: "vagrant", :mount_options => ["dmode=775", "fmode=666"]
+  config.vm.synced_folder "../" , "/var/www/" + project_name + "/", group: "www-data", owner: "www-data", :mount_options => ["dmode=775", "fmode=666"]
 
   # CUSTOMIZATION
   config.vm.provider "virtualbox" do |vb|
@@ -80,6 +80,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :chef_solo do |chef|
     chef.cookbooks_path = ["site-cookbooks"]
     # List of recipes to run
+    chef.add_recipe "app"
     chef.add_recipe "app::packages"
     chef.add_recipe "app::web_server"
     chef.add_recipe "app::vhost"
@@ -97,7 +98,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # Document root for Apache vhost
         :docroot        => "/var/www/" + project_name + "/public",
         # General packages
-        :packages   => %w{ vim git screen curl mysql-server-5.6 mysql-client-core-5.6 libapache2-mod-php5 },
+        :packages   => %w{ vim git screen curl mysql-client-core-5.6 libapache2-mod-php5 },
         # PHP packages
         :php_packages   => %w{ php5-common php5-fpm php5-cgi php5 php5-dev php5-cli php-pear php5-gd php5-curl php5-xsl libssh2-php php5-mysqlnd php5-gd php-pear php5-mysql php5-json language-pack-fr }
       },

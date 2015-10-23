@@ -1,6 +1,6 @@
 override['apache']['mpm'] = 'prefork'
 
-override['mysql']['version'] = '5.5'
+override['mysql']['version'] = '5.6'
 override['mysql']['port'] = '3306'
 override['mysql']['data_dir'] = '/var/lib/mysql'
 override['mysql']['socket'] = '/var/run/mysqld/mysqld.sock'
