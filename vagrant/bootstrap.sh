@@ -6,7 +6,8 @@ echo "=========================================="
 echo "Installing YAZ PHP"
 sudo apt-get install yaz libyaz4 libyaz4-dev -y > /dev/null 2>&1
 sudo printf "\n" | pecl install yaz > /dev/null 2>&1
-
+#sudo sed '867 i\ extension=yaz.so' /etc/php5/apache2/php.ini > /dev/null 2>&1
+#sudo service apache2 reload > /dev/null 2>&1
 # MySQL
 #echo "Preparing MySQL"
 #sudo apt-get install debconf-utils -y > /dev/null
